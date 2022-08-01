@@ -1,0 +1,100 @@
+# JEANNE MARGARET L. GUZON
+# BS Information Technology 2-5
+
+# Create your own program that will contain an option to save to a csv file and another option to view the contents of the created csv file.
+# In option A, during input ,make a query whether to continue to input or not.  
+# Once the input is terminated, it should return to the Main screen.  
+# Only option C will terminate the program
+
+import csv
+import os
+
+def menu():
+    print("MY GROCERY LIST MENU")
+    print("A] Write to a file \nB] Read the contents of the file\nC] Exit\n")
+
+def getItem(budget, grocerylist):
+    choice = 'Y'
+
+    while (choice == 'Y'):
+        
+        # GETTING USER INPUT
+        item = input("I want to buy ")
+        qty = int(input("How many (in pieces)? "))        
+        price = float(input("How much each item? "))
+        total = qty * price
+        
+        # CALCULATING IF THE BUDGET IS ENOUGH
+        if total <= budget:
+            budget = budget - total
+            temp = [item, qty, price, total, budget]
+            grocerylist.append(temp)
+            print("\nREMAINING BUDGET:", budget)
+        else:
+            print("Your budget is not enough.")
+
+        choice = input("Add another item (Y/N)?").upper()
+    return grocerylist
+        
+def choiceA():    
+    print("CREATING YOUR GROCERY LIST...\n")    
+         
+    grocerylist = [] # to store the items
+    header = ["ITEM", "QUANTITY", "PRICE", "TOTAL", "REMAINING BALANCE"]
+    budget = float(input("My budget is "))
+    getItem(budget, grocerylist)
+    
+    # CHECKING IF THE FILE EXISTS BEFOREHAND
+    if os.path.exists("GroceryList.csv"):
+        file = open("GroceryList.csv", "a", newline='')
+        fprint = csv.writer(file)
+        for i in grocerylist:
+            fprint.writerow(i)
+    else:
+        file = open("GroceryList.csv", "a", newline='')
+        fprint = csv.writer(file)
+        # ADDING HEADER IF NOT
+        fprint.writerow(header)
+        for i in grocerylist:
+            fprint.writerow(i)
+    file.close()
+    print("CLOSING YOUR GROCERY LIST...\n")
+
+def choiceB():
+    if os.path.exists("GroceryList.csv"):
+        file=open('GroceryList.csv', 'r')
+        fscan=csv.reader(file)
+        
+        print("     MY GROCERY LIST \n")
+
+        print("ITEMS\t\tQUANTITY\tPRICE\t\tTOTAL\t\tREMAINING BALANCE\t\t")
+        next(fscan)
+        for i in fscan: 
+            print(i[0], end='\t\t')
+            print(i[1], end='\t\t')
+            print(i[2], end='\t\t')
+            print(i[3], end='\t\t')
+            print(i[4], end='\t\t\n')
+        print("------------------------------------") 
+        file.close()
+    else:
+        print("FILE DOESN'T EXIST.")
+
+# MAIN
+answer = 'Y'
+try:
+    while (answer == 'Y'): 
+        menu()
+        
+        user_input = input("Answer: ").upper()
+        
+        if user_input == 'A':
+            choiceA()
+        elif user_input == 'B':
+            choiceB()
+        elif user_input == 'C':
+            break
+        answer = input("REPEAT THE PROGRAM (Y/N)?").upper()
+except Exception as error:
+    print("Error: ",error)
+    print("Please try again.")

@@ -1,0 +1,46 @@
+#### JEANNE MARGARET L. GUZON
+###### BS Information Technology 2-5
+
+# Activity 1 Set C
+###### Enter a word or phrase. Next, enter a character to search then enter a character to replace it with. 
+###### Display the word after the process. Repeat the process until as long as replace is Y or y. 
+###### Continue the process until response to Contniue is N or n
+
+
+
+# Variable for overall looping of the proceess
+answer = 'y'
+
+while (answer == 'y' or answer == 'Y'):
+    # getting the phrase
+    phrase = input("Enter a word or phrase: ")
+    
+    # getting the character to change and the replacement 
+    search_char = input("Enter character to search: ")
+    new_char = input("Replace with: ")
+    
+    # ask if it wants to ignore the case of the search_word
+    case_word = input("Ignore case? (y/n): ")
+    
+    ## using for loop to iterate the string variable - phrase 
+    ### using .replace to replace a character in the phrase and putting it in a new variable
+    if case_word == 'N' or case_word == 'n':
+        if search_char in phrase:
+            new_word = phrase.replace(search_char, new_char)
+            print(new_word)
+        else:
+            print ("This character is not in the phrase. Please try again")
+    elif case_word == 'Y' or case_word == 'y':
+        ## changing the case to uppercase() for easier search of the word
+        phrase = phrase.upper()
+        case_word = case_word.upper()
+        
+        if search_char in phrase:
+            new_word = (phrase.replace(search_char, new_char)).upper()
+            print(new_word)
+        else:
+            print ("This character is not in the phrase. Please try again")
+                
+    answer = input("continue? (y/n)")
+## Repeat the process while continue is yes
+

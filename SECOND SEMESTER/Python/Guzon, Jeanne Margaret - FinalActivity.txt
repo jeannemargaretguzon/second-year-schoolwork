@@ -1,0 +1,100 @@
+
+# JEANNE MARGARET L. Guzon
+# BS INFORMATION TECHNOLOGY 2-5
+
+import tkinter as tk
+import os
+import csv
+from tkinter import BOTTOM, CENTER, LEFT, TOP, messagebox
+
+fields = ["YOUR BUDGET", "ITEM", "QUANTITY", "PRICE", "TOTAL COST", "REMAINING BALANCE"]
+
+## CONFIRMATION BOXES
+def budgetNotEnough():
+    confirmBox = tk.Toplevel(root)
+    confirmBox.geometry("750x250")
+    answer = messagebox.showwarning("Question","Your Budget is not enough. Please try again.")
+    tk.Label(answer, text=answer, font=('Georgia 20 bold')).pack()
+
+def addItemConfirmation():
+    confirmBox = tk.Toplevel(root)
+    confirmBox.geometry("750x250")
+    answer = messagebox.askyesno("Question","You have successfully added an item. Want to add again?")
+    tk.Label(answer, text=answer, font=('Georgia 20 bold')).pack()
+
+def checkBudget(grocerylist):
+    a = float(grocerylist["TOTAL COST"].get())
+    b = float(grocerylist["YOUR BUDGET"].get())
+    if a <= b:
+        getBalance(grocerylist)
+    else:
+        budgetNotEnough()
+
+## COMPUTATIONS
+
+def getTotalCost(grocerylist):
+    total_cost = float(grocerylist["QUANTITY"].get()) * float(grocerylist["PRICE"].get())
+    grocerylist["TOTAL COST"].delete(0, tk.END)
+    grocerylist["TOTAL COST"].insert(0, total_cost)
+
+    checkBudget(grocerylist)
+
+def getBalance(grocerylist):
+    a = float(grocerylist['TOTAL COST'].get())
+    b = float(grocerylist['YOUR BUDGET'].get())
+    balance = b - a
+    grocerylist['REMAINING BALANCE'].delete(0, tk.END)
+    grocerylist['REMAINING BALANCE'].insert(0, balance)
+
+## GET USER INPUT
+def getEntry(grocerylist):
+    for entry in grocerylist:
+        field = entry[0]
+        text  = entry[1].get()
+
+def makeInputBoxes(root, fields):
+    grocerylist = {}
+    for field in fields:
+        container1 = tk.Frame(root)
+        container1.pack(side=tk.TOP, fill=tk.X, padx=50, pady=10)
+        
+        fieldLabel = tk.Label(container1, width=50, text=field, anchor='w', font=("Georgia 12"))
+        fieldLabel.pack(side=tk.LEFT)
+
+        inputBoxes = tk.Entry(container1, bg="#94B49F")
+        inputBoxes.insert(0, "0")
+        inputBoxes.pack(side=tk.RIGHT, fill=tk.X, padx=50)
+        
+        grocerylist[field] = inputBoxes
+    return grocerylist
+
+## MAIN PROCEDURE
+if __name__ == '__main__':
+    root = tk.Tk()
+    root.title("Jeanne Margaret Guzon")
+    root.resizable(False, False)
+    
+    text1 = tk.Label(root, 
+        text="Jeanne Margaret Guzon",
+        font=('Georgia Bold', 12),
+        width=20, height=5,
+        fg='black', anchor=CENTER).pack()
+
+    a = """
+    Click COMPUTE to calculate the total cost of your item. Click ADD RECORD to add another item.\n"""
+    
+    ab = tk.Label(font='Helvetica 10 italic', anchor='w', 
+    justify=LEFT, text=a)
+    ab.pack(side=TOP, anchor='w')
+
+    boxes = makeInputBoxes(root, fields) 
+    root.bind('<Return>', (lambda event, userInput=boxes: getEntry(userInput)))
+   
+    quit_bttn = tk.Button(root, text='Quit', command=root.quit)
+    quit_bttn.pack(side=tk.RIGHT, padx=20, pady=20)
+    
+    total_cost_bttn = tk.Button(root, text='Total Cost',
+           command=(lambda userInput=boxes: getTotalCost(userInput)))
+    total_cost_bttn.pack(side=tk.RIGHT, padx=20, pady=20) 
+        
+    root.mainloop()   
