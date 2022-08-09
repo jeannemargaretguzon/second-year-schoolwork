@@ -1,3 +1,11 @@
+/* 
+Write a program that inputs the hourly rate and number of hours worked. 
+Compute and display 
+--  the gross pay (hourly rate * hours worked), 
+--- your withholding tax, which is 15% of your gross pay 
+--- and your net pay (gross pay – withholding tax).
+ */
+
 import java.util.Scanner;
 
 public class calculatepay {

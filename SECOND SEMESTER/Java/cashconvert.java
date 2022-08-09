@@ -1,3 +1,6 @@
+/*
+Write a program that displays the conversion of cash into 1000’s, 500’s, 100’s,50’s 20’s ,10’s, 5’s and 1’s 
+ */
 import java.util.Scanner;
 
 public class cashconvert {

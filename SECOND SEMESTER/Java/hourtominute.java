@@ -1,3 +1,8 @@
+/*
+Write a program that declares a variable that represents the minutes worked on a job and assign a value. 
+Display the value in hours and minutes.
+ */
+
 import java.util.Scanner;
 
 public class hourtominute {
